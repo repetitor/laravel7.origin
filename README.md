@@ -1,5 +1,6 @@
 ```
 composer install
+* php 7.2 => composer install --ignore-platform-reqs
 
 cp .env.example .env
 * modify .env
@@ -9,6 +10,7 @@ cp .env.example .env
 php artisan key:generate
 php artisan storage:link
 php artisan migrate
+php artisan passport:install
 
     # host linux => permissions
     sudo chown -R $UID:$(id -g) $(pwd) # ubuntu
@@ -19,6 +21,10 @@ php artisan migrate
     chown -R www-data bootstrap/cache
     exit
 ```
+
+### helpers
+- https://laravel.com/docs/7.x/passport
+
 
 <p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
 
