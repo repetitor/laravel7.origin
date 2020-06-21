@@ -1,3 +1,25 @@
+```
+composer install
+
+cp .env.example .env
+* modify .env
+
+* set up database
+
+php artisan key:generate
+php artisan storage:link
+php artisan migrate
+
+    # host linux => permissions
+    sudo chown -R $UID:$(id -g) $(pwd) # ubuntu
+    
+    # if web-server: apache2 || nginx
+    sudo su # ubuntu
+    chown -R www-data storage
+    chown -R www-data bootstrap/cache
+    exit
+```
+
 <p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
 
 <p align="center">
