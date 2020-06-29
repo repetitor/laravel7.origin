@@ -13,19 +13,24 @@ class PublicController extends Controller
         // one to one
 //        $query = User::find(1);
 //        if ($query) {
-//            $test = $query->phone;
+//            $response = $query->phone;
 //        }
 
         // one to many
         $query = Post::find(1);
         if ($query) {
             $comments = $query->comments;
-//            foreach ($comments as $comment) {
-//                //
-//            }
-            $test = $comments;
+////            foreach ($comments as $comment) {
+////                //
+////            }
+//            $response = $comments;
+
+//            $comment = $comments->where('name', 'comment*')->first();
+            $comment = $comments->where('id', '8')->first();
+//            $response = $comment;
+            $response = $comment->post->name;
         }
 
-        return $test ?? 'default test answer';
+        return $response ?? 'default test answer';
     }
 }
