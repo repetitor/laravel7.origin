@@ -4,7 +4,7 @@ use App\models\Role;
 use App\User;
 use Illuminate\Database\Seeder;
 
-class RoleUserseeder extends Seeder
+class RoleUserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -19,7 +19,7 @@ class RoleUserseeder extends Seeder
         $users->each(function ($user) use ($roles)
         {
             $user->roles()->attach(
-                $roles->random(rand(1, 4))->pluck('id')->toArray()
+                $roles->random(rand(0, 3))->pluck('id')->toArray()
             );
         });
     }

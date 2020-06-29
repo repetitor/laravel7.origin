@@ -17,19 +17,28 @@ class PublicController extends Controller
 //        }
 
         // one to many
-        $query = Post::find(1);
-        if ($query) {
-            $comments = $query->comments;
-////            foreach ($comments as $comment) {
-////                //
-////            }
-//            $response = $comments;
+//        $query = Post::find(1);
+//        if ($query) {
+//            $comments = $query->comments;
+//////            foreach ($comments as $comment) {
+//////                //
+//////            }
+////            $response = $comments;
+//
+////            $comment = $comments->where('name', 'comment*')->first();
+//            $comment = $comments->where('id', '8')->first();
+////            $response = $comment;
+//            $response = $comment->post->name;
+//        }
 
-//            $comment = $comments->where('name', 'comment*')->first();
-            $comment = $comments->where('id', '8')->first();
-//            $response = $comment;
-            $response = $comment->post->name;
-        }
+        $user = User::find(1);
+
+//        foreach ($user->roles as $role) {
+////            echo $role->pivot->created_at;
+//            $response = $role->pivot;
+//        }
+
+        $response = $user->roles;
 
         return $response ?? 'default test answer';
     }
