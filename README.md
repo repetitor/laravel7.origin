@@ -27,6 +27,12 @@ npm install
 ### helpers
 - https://laravel.com/docs/7.x/passport
 
+```
+php artisan make:factory CommentFactory --model models/Comment
+php artisan make:seeder CommentSeeder
+php artisan make:model models/Comment -m (--migration)
+```
+
 
 <p align="center"><img src="https://res.cloudinary.com/dtfbvvkyp/image/upload/v1566331377/laravel-logolockup-cmyk-red.svg" width="400"></p>
 
