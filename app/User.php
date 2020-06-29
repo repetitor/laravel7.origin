@@ -53,4 +53,12 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\models\FacebookAccount', 'user_id', 'id');
     }
+
+    /**
+     * Get the posts for the user.
+     */
+    public function posts()
+    {
+        return $this->hasMany('App\models\Post');
+    }
 }
