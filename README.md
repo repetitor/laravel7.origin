@@ -12,6 +12,8 @@ php artisan storage:link
 php artisan migrate
 php artisan passport:install
 
+npm install
+
     # host linux => permissions
     sudo chown -R $UID:$(id -g) $(pwd) # ubuntu
     
