@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
 //            'name' => 'name' . Str::random(4),
 //            'email' => 'email' . Str::random(4).'@gmail.com',
 //            'password' => Hash::make('password'),
-//        ]);
+//        ]);name
 
         $this->call([
             UserSeeder::class,
@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
             CommentSeeder::class,
             RoleSeeder::class,
             RoleUserSeeder::class,
-            DescriptionSeeder::class,
+//            DescriptionSeeder::class,
         ]);
     }
 }

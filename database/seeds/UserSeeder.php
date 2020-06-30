@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class UserSeeder extends Seeder
 {
@@ -21,6 +22,14 @@ class UserSeeder extends Seeder
 
 //            // insert in posts
 //            $user->posts()->save(factory(App\models\Post::class)->make());
+
+            for ($i = 0; $i < rand(0, 1); $i++) {
+                DB::table('descriptions')->insert([
+                    'name' => 'description for user ' . $user->id,
+                    'descriptionable_id' => $user->id,
+                    'descriptionable_type' => 'App\User'
+                ]);
+            }
         });
 
 
