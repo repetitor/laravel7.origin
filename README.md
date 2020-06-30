@@ -31,6 +31,7 @@ npm install
 php artisan make:factory CommentFactory --model models/Comment
 php artisan make:seeder CommentSeeder
 php artisan make:model models/Comment -m (--migration)
+php artisan db:seed --class=UserSeeder
 ```
 
 

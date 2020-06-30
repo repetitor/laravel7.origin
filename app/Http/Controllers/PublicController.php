@@ -39,15 +39,12 @@ class PublicController extends Controller
 ////        }
 //        $response = $user->roles;
 
-//        $response = Post::find(1);
+//        // polymorth, one to one
+////        $response = User::find(1)->description;
 //        $response = Post::find(1)->description;
-        $response = User::find(3);
-//        $response = User::find(3)->description;
-//        $response = Post::find(1)->descriptionable();
 
-//        $description = Description::find(2);
-//
-//        $response = $description->descriptionable;
+//        // polymorth, inversion, one to one => user || post
+//        $response = Description::find(3)->descriptionable;
 
         return $response ?? 'default test answer2';
     }
