@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password'
     ];
 
     /**
@@ -68,5 +68,13 @@ class User extends Authenticatable
     public function roles()
     {
         return $this->belongsToMany('App\models\Role');
+    }
+
+    /**
+     * Get the user's description.
+     */
+    public function description()
+    {
+        return $this->morphOne('App\models\Description', 'descriptionable');
     }
 }

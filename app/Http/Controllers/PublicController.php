@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\models\Description;
 use App\models\Post;
 use App\User;
 use Illuminate\Http\Request;
@@ -31,15 +32,23 @@ class PublicController extends Controller
 //            $response = $comment->post->name;
 //        }
 
-        $user = User::find(1);
+//        $user = User::find(1);
+////        foreach ($user->roles as $role) {
+//////            echo $role->pivot->created_at;
+////            $response = $role->pivot;
+////        }
+//        $response = $user->roles;
 
-//        foreach ($user->roles as $role) {
-////            echo $role->pivot->created_at;
-//            $response = $role->pivot;
-//        }
+//        $response = Post::find(1);
+//        $response = Post::find(1)->description;
+        $response = User::find(3);
+//        $response = User::find(3)->description;
+//        $response = Post::find(1)->descriptionable();
 
-        $response = $user->roles;
+//        $description = Description::find(2);
+//
+//        $response = $description->descriptionable;
 
-        return $response ?? 'default test answer';
+        return $response ?? 'default test answer2';
     }
 }

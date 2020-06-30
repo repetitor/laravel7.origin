@@ -21,4 +21,12 @@ class Post extends Model
     {
         return $this->belongsTo('App\User');
     }
+
+    /**
+     * Get the post's description.
+     */
+    public function description()
+    {
+        return $this->morphOne('App\models\Description', 'descriptionable');
+    }
 }
