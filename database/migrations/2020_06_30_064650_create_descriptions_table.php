@@ -21,6 +21,8 @@ class CreateDescriptionsTable extends Migration
             $table->unsignedBigInteger('descriptionable_id');
             $table->string('descriptionable_type');
 
+            $table->unique(['descriptionable_id', 'descriptionable_type']);
+
             $table->timestamps();
         });
     }
