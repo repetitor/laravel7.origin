@@ -32,6 +32,8 @@ class DatabaseSeeder extends Seeder
             RoleSeeder::class,
             RoleUserSeeder::class,
 //            DescriptionSeeder::class,
+            TagSeeder::class,
+            TaggableSeeder::class,
         ]);
     }
 }

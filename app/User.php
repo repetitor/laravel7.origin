@@ -77,4 +77,13 @@ class User extends Authenticatable
     {
         return $this->morphOne('App\models\Description', 'descriptionable');
     }
+
+    /**
+     * Get all of the tags for the user.
+     */
+    public function tags()
+    {
+//        return $this->belongsToMany('App\models\tags');
+        return $this->morphToMany('App\models\Tag', 'taggable');
+    }
 }

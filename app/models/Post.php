@@ -29,4 +29,13 @@ class Post extends Model
     {
         return $this->morphOne('App\models\Description', 'descriptionable');
     }
+
+    /**
+     * Get all of the tags for the post.
+     */
+    public function tags()
+    {
+//        return $this->belongsToMany('App\models\tags');
+        return $this->morphToMany('App\models\Tag', 'taggable');
+    }
 }

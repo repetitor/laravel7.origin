@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\models\Description;
 use App\models\Post;
+use App\models\Tag;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -43,12 +44,16 @@ class PublicController extends Controller
 ////        $response = User::find(1)->description;
 //        $response = Post::find(1)->description;
 
-        // inversion, one to one
-//        $response = Description::find(3)->user;
-//        $response = Description::find(3)->post;
-//
-//        // polymorph => user || post
-        $response = Description::find(3)->descriptionable;
+//        // inversion, one to one
+////        $response = Description::find(3)->user;
+////        $response = Description::find(3)->post;
+////
+////        // polymorph => user || post
+//        $response = Description::find(3)->descriptionable;
+
+//        $response = User::find(1)->tags;
+//        $response = Tag::find(4)->users;
+        $response = Tag::find(4)->posts;
 
         return $response ?? 'default test answer2';
     }

@@ -28,9 +28,9 @@ npm install
 - https://laravel.com/docs/7.x/passport
 
 ```
-php artisan make:factory CommentFactory --model models/Comment
-php artisan make:seeder CommentSeeder
-php artisan make:model models/Comment -m (--migration)
+php artisan make:model models/User --migration
+php artisan make:seeder UserSeeder
+php artisan make:factory UserFactory --model models/User
 php artisan db:seed --class=UserSeeder
 ```
 
