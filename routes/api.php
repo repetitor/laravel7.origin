@@ -25,3 +25,8 @@ Route::post('/logout', 'AuthController@logout')->middleware('auth:api');
 
 
 Route::get('/public-test', 'PublicController@test');
+
+Route::resources([
+    'users' => 'UserController',
+//    'posts' => 'PostController',
+]);

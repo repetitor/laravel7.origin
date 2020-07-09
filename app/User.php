@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password'
+        'name', 'email', 'password', 'subscriber_id'
     ];
 
     /**
@@ -85,5 +85,12 @@ class User extends Authenticatable
     {
 //        return $this->belongsToMany('App\models\tags');
         return $this->morphToMany('App\models\Tag', 'taggable');
+    }
+
+    //    public static function setSubscriberId(User $user)
+    public function setSubscriberId()
+    {
+//        $user->update(['subscriber_id' => 100000 + $user->id]);
+        $this->update(['subscriber_id' => 100000 + $this->id]);
     }
 }
