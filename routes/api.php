@@ -22,7 +22,7 @@ Route::get('try', 'Quick');
 Route::get('try-get', 'Quick@get');
 
 /*
- * user
+ * auth
  *
  * if you will see message: "Personal access client not found. Please create one."
  * => php artisan passport:install
@@ -40,7 +40,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('/logout', 'AuthController@logout')->middleware('auth:api');
 
 /*
- * fligth
+ * users
+ */
+Route::get('users/{user}/phone', 'UserController@phone');
+Route::get('phones/{phone}/user', 'PhoneController@user');
+Route::apiResource('users', 'UserController')->except('store');
+
+/*
+ * fligths
  */
 // // show route -> breaks my other actions)
 //Route::get('/flights/{flight}', function (\App\Flight $flight) {
@@ -56,7 +63,8 @@ Route::get('flights/my-action-2', 'FlightController@myAction2');
 //Route::apiResource('flights', 'FlightController')->except(['show']);
 Route::apiResource('flights', 'FlightController');
 
-//Route::apiResources([
+Route::apiResources([
 //    'photos' => 'PhotoController',
 //    'posts' => 'PostController',
-//]);
+    'phones' => 'PhoneController',
+]);
