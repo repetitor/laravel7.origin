@@ -14,11 +14,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::middleware('auth:api')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
-
-// auth
+/*
+ * user
+ *
+ * if you will see message: "Personal access client not found. Please create one."
+ * => php artisan passport:install
+ *
+ * p.s. don't worry if you will see message: "Encryption keys already exist. Use the --force option to overwrite them."
+ */
 Route::post('/register', 'AuthController@register');
 Route::post('/login', 'AuthController@login');
+
+// origin route
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});
+
 Route::post('/logout', 'AuthController@logout')->middleware('auth:api');
