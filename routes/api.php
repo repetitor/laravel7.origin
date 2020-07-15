@@ -15,6 +15,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 /*
+ * try quickly)
+ */
+//Route::get('user/{id}', 'ShowProfile');
+Route::get('try', 'Quick');
+Route::get('try-get', 'Quick@get');
+
+/*
  * user
  *
  * if you will see message: "Personal access client not found. Please create one."
