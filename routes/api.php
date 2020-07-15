@@ -63,8 +63,10 @@ Route::get('flights/my-action-2', 'FlightController@myAction2');
 //Route::apiResource('flights', 'FlightController')->except(['show']);
 Route::apiResource('flights', 'FlightController');
 
+Route::get('posts/{post}/comments', 'PostController@comments');
 Route::apiResources([
 //    'photos' => 'PhotoController',
-//    'posts' => 'PostController',
+    'posts' => 'PostController',
+    'comments' => 'CommentController',
     'phones' => 'PhoneController',
 ]);
