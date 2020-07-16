@@ -1,27 +1,82 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\SeparatedLaunch;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
-use Tests\UserHelper;
 
-class Auth2Test extends TestCase
+class AuthTest extends TestCase
 {
+//    /**
+//     * If true, setup has run at least once.
+//     *
+//     * @var bool
+//     */
+//    protected static $setUpHasRunOnce = false;
+
+    static protected $nameDefault = 'name';
+    static protected $emailDefault = 'email';
+    static protected $passwordDefault = 'password';
+    static protected $tokenDefault = null;
+
+    static protected $uriRegister = '/api/register';
+    static protected $uriLogin = '/api/login';
+
+    static protected $requestRegister;
+    static protected $requestLogin;
+
+//    /**
+//     * After the first run of setUp "migrate:fresh --seed".
+//     *
+//     * @return void
+//     */
+//    public function setUp(): void
+//    {
+//        parent::setUp();
+////        $this->artisan('migrate:fresh');
+////        $this->artisan('passport:install');
+////        $this->artisan('db:seed --class=UsersTableSeeder');
+//
+//        if (!static::$setUpHasRunOnce) {
+//            Artisan::call('migrate:fresh');
+//            Artisan::call('passport:install');
+////            Artisan::call(
+////                'db:seed',
+////                // ['--class' => 'UsersTableSeeder']
+////            );
+//            static::$setUpHasRunOnce = true;
+//        }
+//    }
+
     /**
      * register
      */
 
+    protected function setRequestRegister()
+    {
+        $requestJson = '{
+            "name": "' . self::$nameDefault . '",
+            "email": "' . self::$emailDefault . '",
+            "password": "' . self::$passwordDefault . '"
+        }';
+
+        self::$requestRegister = json_decode($requestJson, true);
+    }
+
     protected function doOrIgnoreDefaultRegistration()
     {
-        UserHelper::setRequestRegister();
+        self::setRequestRegister();
 
-        return self::postJson(UserHelper::$uriRegister, UserHelper::$requestRegister);
+        return self::postJson(self::$uriRegister, self::$requestRegister);
     }
 
     public function testRegister()
     {
+//        $this->artisan('migrate:fresh');
+//        Artisan::call('migrate:fresh');
+//        $this->artisan('passport:install');
         // success
         $response = self::doOrIgnoreDefaultRegistration();
 
@@ -43,9 +98,10 @@ class Auth2Test extends TestCase
         $response->assertSeeText('Integrity constraint violation:');
 
         // name is empty
-        UserHelper::setRequestRegister();
-        UserHelper::$requestRegister['name'] = '';
-        $response = $this->postJson(UserHelper::$uriRegister, UserHelper::$requestRegister);
+        self::setRequestRegister();
+        self::$requestRegister['name'] = '';
+//        $response = $this->postJson(self::$uriRegister, self::$requestRegister);
+        $response = self::postJson(self::$uriRegister, self::$requestRegister);
 
         $response->assertStatus(422);
         $response->assertSeeText('The name field is required.');
@@ -56,9 +112,9 @@ class Auth2Test extends TestCase
         $this->assertTrue($response['errors']['name'][0] == 'The name field is required.');
 
         // empty email
-        UserHelper::setRequestRegister();
-        UserHelper::$requestRegister['email'] = '';
-        $response = $this->postJson(UserHelper::$uriRegister, UserHelper::$requestRegister);
+        self::setRequestRegister();
+        self::$requestRegister['email'] = '';
+        $response = $this->postJson(self::$uriRegister, self::$requestRegister);
 
         $response->assertStatus(422);
         $response->assertSeeText('The email field is required.');
@@ -69,9 +125,9 @@ class Auth2Test extends TestCase
         $this->assertTrue($response['errors']['email'][0] == 'The email field is required.');
 
         // empty password
-        UserHelper::setRequestRegister();
-        UserHelper::$requestRegister['password'] = '';
-        $response = $this->postJson(UserHelper::$uriRegister, UserHelper::$requestRegister);
+        self::setRequestRegister();
+        self::$requestRegister['password'] = '';
+        $response = $this->postJson(self::$uriRegister, self::$requestRegister);
 
         $response->assertStatus(422);
         $response->assertSeeText('The password field is required.');
@@ -86,13 +142,26 @@ class Auth2Test extends TestCase
      * login
      */
 
+    protected function setRequestLogin()
+    {
+        $requestJson = '{
+            "email": "' . self::$emailDefault . '",
+            "password": "' . self::$passwordDefault . '"
+        }';
+
+        self::$requestLogin = json_decode($requestJson, true);
+    }
+
     protected function doDefaultLogin()
     {
         self::doOrIgnoreDefaultRegistration();
 
-        UserHelper::setRequestLogin();
-        $response = $this->postJson(UserHelper::$uriLogin, UserHelper::$requestLogin);
-        UserHelper::$tokenDefault = $response['access_token'];
+        self::setRequestLogin();
+//        $response = self::postJson(self::$uriLogin, self::$requestLogin);
+        $response = $this->postJson(self::$uriLogin, self::$requestLogin);
+//        dd($response);
+//        $response->dump();
+        self::$tokenDefault = $response['access_token'];
 
         return $response;
     }
@@ -112,17 +181,17 @@ class Auth2Test extends TestCase
          */
 
         // wrong password
-        UserHelper::setRequestLogin();
-        UserHelper::$requestLogin['password'] = 'wrongPassword';
-        $response = $this->postJson(UserHelper::$uriLogin, UserHelper::$requestLogin);
+        self::setRequestLogin();
+        self::$requestLogin['password'] = 'wrongPassword';
+        $response = $this->postJson(self::$uriLogin, self::$requestLogin);
 
         $response->assertStatus(200);
         $this->assertTrue($response['message'] == 'Invalid login credentials.');
 
         // empty password
-        UserHelper::setRequestLogin();
-        UserHelper::$requestLogin['password'] = '';
-        $response = $this->postJson(UserHelper::$uriLogin, UserHelper::$requestLogin);
+        self::setRequestLogin();
+        self::$requestLogin['password'] = '';
+        $response = $this->postJson(self::$uriLogin, self::$requestLogin);
 
         $response->assertStatus(422);
         $this->assertTrue($response['message'] == 'The given data was invalid.');
@@ -147,11 +216,13 @@ class Auth2Test extends TestCase
         /*
          * success
          */
-        $response = $this->withHeader('Authorization', 'Bearer ' . UserHelper::$tokenDefault)
-            ->getJson($uri);
+        $response = $this->withHeader('Authorization', 'Bearer ' . self::$tokenDefault)->getJson($uri);
         $response->assertStatus(200);
-        $this->assertTrue($response['name'] == UserHelper::$nameDefault);
-        $this->assertTrue($response['email'] == UserHelper::getEmail());
+        $this->assertTrue($response['id'] == '1');
+        // $this->assertTrue($response['id'] == '1.'); // ??? 1.
+        $this->assertFalse($response['id'] == '2');
+        $this->assertTrue($response['name'] == self::$nameDefault);
+        $this->assertTrue($response['email'] == self::$emailDefault);
     }
 
     /**
@@ -179,8 +250,7 @@ class Auth2Test extends TestCase
         /*
          * success - correct token
          */
-        $response = $this->withHeader('Authorization', 'Bearer ' . UserHelper::$tokenDefault)
-            ->postJson($uri);
+        $response = $this->withHeader('Authorization', 'Bearer ' . self::$tokenDefault)->postJson($uri);
         $response->assertStatus(200);
         $this->assertTrue($response['message'] == 'You are successfully logged out');
     }

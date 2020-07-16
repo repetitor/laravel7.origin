@@ -4,18 +4,10 @@ namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
 
 class AuthTest extends TestCase
 {
-    /**
-     * If true, setup has run at least once.
-     *
-     * @var bool
-     */
-    protected static $setUpHasRunOnce = false;
-
     static protected $nameDefault = 'name';
     static protected $emailDefault = 'email';
     static protected $passwordDefault = 'password';
@@ -26,29 +18,6 @@ class AuthTest extends TestCase
 
     static protected $requestRegister;
     static protected $requestLogin;
-
-    /**
-     * After the first run of setUp "migrate:fresh --seed".
-     *
-     * @return void
-     */
-    public function setUp(): void
-    {
-        parent::setUp();
-//        $this->artisan('migrate:fresh');
-//        $this->artisan('passport:install');
-//        $this->artisan('db:seed --class=UsersTableSeeder');
-
-        if (!static::$setUpHasRunOnce) {
-            Artisan::call('migrate:fresh');
-            Artisan::call('passport:install');
-//            Artisan::call(
-//                'db:seed',
-//                // ['--class' => 'UsersTableSeeder']
-//            );
-            static::$setUpHasRunOnce = true;
-        }
-    }
 
     /**
      * register
@@ -97,8 +66,7 @@ class AuthTest extends TestCase
         // name is empty
         self::setRequestRegister();
         self::$requestRegister['name'] = '';
-//        $response = $this->postJson(self::$uriRegister, self::$requestRegister);
-        $response = self::postJson(self::$uriRegister, self::$requestRegister);
+        $response = $this->postJson(self::$uriRegister, self::$requestRegister);
 
         $response->assertStatus(422);
         $response->assertSeeText('The name field is required.');
@@ -154,10 +122,7 @@ class AuthTest extends TestCase
         self::doOrIgnoreDefaultRegistration();
 
         self::setRequestLogin();
-//        $response = self::postJson(self::$uriLogin, self::$requestLogin);
         $response = $this->postJson(self::$uriLogin, self::$requestLogin);
-//        dd($response);
-//        $response->dump();
         self::$tokenDefault = $response['access_token'];
 
         return $response;
@@ -215,8 +180,6 @@ class AuthTest extends TestCase
          */
         $response = $this->withHeader('Authorization', 'Bearer ' . self::$tokenDefault)->getJson($uri);
         $response->assertStatus(200);
-        $this->assertTrue($response['id'] == '1');
-        // $this->assertTrue($response['id'] == '1.'); // ??? 1.
         $this->assertFalse($response['id'] == '2');
         $this->assertTrue($response['name'] == self::$nameDefault);
         $this->assertTrue($response['email'] == self::$emailDefault);
