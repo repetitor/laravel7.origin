@@ -16,7 +16,6 @@ class AuthTest extends TestCase
      */
     protected static $setUpHasRunOnce = false;
 
-    static protected $isDefaultUser = false;
     static protected $nameDefault = 'name';
     static protected $emailDefault = 'email';
     static protected $passwordDefault = 'password';
@@ -68,10 +67,7 @@ class AuthTest extends TestCase
 
     protected function doOrIgnoreDefaultRegistration()
     {
-        if (!self::$isDefaultUser) {
-            self::setRequestRegister();
-            self::$isDefaultUser = true;
-        }
+        self::setRequestRegister();
 
         return self::postJson(self::$uriRegister, self::$requestRegister);
     }
