@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -42,11 +43,26 @@ class AuthUserHelperTest extends TestCase
          */
 
         // email that is stored in database before
+        // a)
         $response = self::doOrIgnoreDefaultRegistration();
 
         $response->assertStatus(500);
         $this->assertTrue(isset($response['exception']));
         $response->assertSeeText('Integrity constraint violation:');
+        $response->assertSeeText('Duplicate entry');
+        $response->assertSeeText('users_email_unique');
+
+        // b)
+        $user = User::first();
+        UserHelper::setRequestRegister();
+        UserHelper::$requestRegister['email'] = $user->email;
+        $response = $this->postJson(UserHelper::$uriRegister, UserHelper::$requestRegister);
+
+        $response->assertStatus(500);
+        $this->assertTrue(isset($response['exception']));
+        $response->assertSeeText('Integrity constraint violation:');
+        $response->assertSeeText('Duplicate entry');
+        $response->assertSeeText('users_email_unique');
 
         // name is empty
         UserHelper::setRequestRegister();
