@@ -7,8 +7,14 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 use Tests\UserHelper;
 
-class Auth2Test extends TestCase
+class AuthUserHelperTest extends TestCase
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+        UserHelper::setIsRegistered(false);
+    }
+
     /**
      * register
      */

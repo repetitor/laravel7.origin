@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -9,7 +10,7 @@ use Tests\TestCase;
 class AuthTest extends TestCase
 {
     static protected $nameDefault = 'name';
-    static protected $emailDefault = 'email';
+    static protected $emailDefault = 'email.auth.test';
     static protected $passwordDefault = 'password';
     static protected $tokenDefault = null;
 

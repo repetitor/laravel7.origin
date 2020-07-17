@@ -19,14 +19,16 @@ class UserHelper
     static public $requestRegister;
     static public $requestLogin;
 
-    public function __construct()
+    public static function setIsRegistered($trueFalse)
     {
-        self::$emailDefault = 'email' . (User::all()->last()->id + 1);
+        self::$isRegistered = $trueFalse;
     }
 
     public static function setEmail()
     {
-        self::$emailDefault = 'email' . (User::all()->last()->id + 1);
+        $users = User::all();
+        $prevId = count($users) ? $users->last()->id : 0;
+        self::$emailDefault = 'email' . $prevId;
     }
 
     public static function getEmail()
@@ -38,7 +40,8 @@ class UserHelper
     {
         if (!self::$isRegistered){
             self::setEmail();
-            self::$isRegistered = true;
+//            self::$isRegistered = true;
+            self::setIsRegistered(true);
         }
 
         $requestJson = '{
