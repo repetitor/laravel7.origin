@@ -25,7 +25,8 @@ class DatabaseSeeder extends Seeder
 //            'password' => Hash::make('password'),
 //        ]);
 
-//            $this->call([
+            $this->call([
+                OrderSeeder::class,
 //                UserSeeder::class,
 //                PostSeeder::class,
 //                CommentSeeder::class,
@@ -34,6 +35,6 @@ class DatabaseSeeder extends Seeder
 ////            DescriptionSeeder::class,
 //                TagSeeder::class,
 //                TaggableSeeder::class,
-//            ]);
+            ]);
     }
 }

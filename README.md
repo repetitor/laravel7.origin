@@ -31,6 +31,11 @@ npm install
 php artisan make:model Photo --migration
 php artisan make:controller PhotoController --resource --model=Photo --api
 * routes: Route::apiResource('photos', 'PhotoController');
+
+php artisan make:seed OrderSeeder
+* composer dump-autoload
+php artisan make:factory Orderfactory --model=Order
+php artisan db:seed --class=OrderSeeder
 ```
 
 
