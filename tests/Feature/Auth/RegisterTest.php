@@ -8,7 +8,6 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Str;
 use Tests\TestCase;
-use Tests\UserHelper;
 
 class RegisterTest extends TestCase
 {
