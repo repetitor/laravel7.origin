@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 use Tests\UserHelper;
 
@@ -20,7 +21,7 @@ class RegisterTest extends TestCase
 
     public function tearDown(): void
     {
-//        parent::tearDown();
+//        parent::tearDown(); -> problem: Target class [env] does not exist.
         parent::refresh();
     }
 
@@ -75,6 +76,15 @@ class RegisterTest extends TestCase
         $this->isAssertSuccess($response);
     }
 
+    public function test_success_max_length_name()
+    {
+        $request = AuthHelper::REQUEST_REGISTER;
+        $request['name'] = Str::random(255);
+        $response = $this->postJson(AuthHelper::URI_REGISTER, $request);
+
+        $this->isAssertSuccess($response);
+    }
+
     public function test_success_email()
     {
         $request = AuthHelper::REQUEST_REGISTER;
@@ -111,17 +121,34 @@ class RegisterTest extends TestCase
         $this->isAssertEmptyName($response);
     }
 
+    public function test_error_loo_long_name()
+    {
+        $request = AuthHelper::REQUEST_REGISTER;
+        $request['name'] = Str::random(256);
+        $response = $this->postJson(AuthHelper::URI_REGISTER, $request);
+
+        $response->assertStatus(500);
+        $this->assertTrue(isset($response['exception']));
+        $this->assertTrue($response['exception'] == 'Illuminate\\Database\\QueryException');
+        $response->assertSeeText('Data too long for column');
+    }
+
     public function test_error_duplicate_email()
     {
-//        $request = AuthHelper::REQUEST_REGISTER;
-//        $user = User::first();
-//
-////        if(!$user){
-////            Artisan::call('db:seed', ['--class' => 'DatabaseSeeder']);
-////            $user = User::first();
-////        }
         $request = AuthHelper::REQUEST_REGISTER;
+
+        // a)
         $this->post(AuthHelper::URI_REGISTER, $request);
+
+        // b)
+//        $user = User::first();
+//        if(!$user){
+////            Artisan::call('db:seed', ['--class' => 'DatabaseSeeder']);
+//            Artisan::call('db:seed', ['--class' => 'UserSeeder']);
+//            $user = User::first();
+//        }
+//        $request['email'] = $user->email;
+
         $response = $this->postJson(AuthHelper::URI_REGISTER, $request);
 
         $response->assertStatus(500);
@@ -170,54 +197,4 @@ class RegisterTest extends TestCase
         $this->isAssertError($response);
         $this->assertTrue($response['errors']['password'][0] == 'The password field is required.');
     }
-
-//    public function testSuccess23()
-//    {
-//        $request = AuthHelper::REQUEST_REGISTER;
-//        $request['name'] = 'also normal name';
-////        Artisan::call('migrate:refresh');
-////        $requestJson = '{
-////            "name": "' . parent::name . '",
-////            "email": "' . parent::$email . '",
-////            "password": "' . parent::$password . '"
-////        }';
-//
-////        $response = $this->post(env('APP_URL') . '/api/register', [
-////            'name' => null,
-////            'email' => parent::$email,
-////            'password' => parent::$password,
-////        ]);
-////        AuthHelper::getLoginRequest();
-////        $response = $this->postJson($this->uri, $this->request);
-//        $response = $this->postJson(env('APP_URL') . '/api/register', $request);
-////
-////        dd($response);
-//        $response->assertStatus(200);
-//
-//        parent::prepare();
-//    }
-//
-//    public function testSuccess3()
-//    {
-////        Artisan::call('migrate:refresh');
-//        $requestJson = '{
-//            "name": "",
-//            "email": "' . parent::$email . '",
-//            "password": "' . parent::$password . '"
-//        }';
-//
-////        $response = $this->post(env('APP_URL') . '/api/register', [
-////            'name' => null,
-////            'email' => parent::$email,
-////            'password' => parent::$password,
-////        ]);
-////        AuthHelper::getLoginRequest();
-////        $response = $this->postJson($this->uri, $this->request);
-//        $response = $this->postJson(env('APP_URL') . '/api/register', json_decode($requestJson, true));
-////
-////        dd($response);
-//        $response->assertStatus(422);
-//
-//        parent::prepare();
-//    }
 }
