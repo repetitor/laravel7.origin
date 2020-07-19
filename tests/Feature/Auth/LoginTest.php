@@ -8,6 +8,8 @@ use Tests\TestCase;
 
 class LoginTest extends TestCase
 {
+//    use RefreshDatabase;
+
     protected static $isUserRegistered = false;
 
     public function setUp(): void
@@ -20,10 +22,10 @@ class LoginTest extends TestCase
         }
     }
 
-//    public function tearDown(): void
-//    {
-//        parent::refresh();
-//    }
+    public function tearDown(): void
+    {
+        parent::refresh();
+    }
 
     public function test_success()
     {
@@ -34,14 +36,6 @@ class LoginTest extends TestCase
         $response->assertSeeText('access_token');
         $this->assertTrue(isset($response['user']));
         $this->assertTrue(isset($response['access_token']));
-    }
-
-    public function test_success2()
-    {
-        $request = AuthHelper::REQUEST_LOGIN;
-        $response = $this->postJson(AuthHelper::URI_LOGIN, $request);
-
-        $response->assertStatus(200);
     }
 
     public function test_error_wrong_password()

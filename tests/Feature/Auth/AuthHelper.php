@@ -6,6 +6,7 @@ class AuthHelper
 {
     const URI_REGISTER = '/api/register';
     const URI_LOGIN = '/api/login';
+    const URI_SELFUSER = '/api/user';
     const URI_LOGOUT = '/api/logout';
 
     const NAME = 'name';
