@@ -90,7 +90,7 @@ class OrderTest extends TestCase
         Mail::assertSent(OrderShipped::class, 1);
     }
 
-    public function test_success_error_unexisted_order()
+    public function test_error_unexisted_order()
     {
         $lastOrder = Order::all()->last();
         $unexistedId = $lastOrder->id + 1;
