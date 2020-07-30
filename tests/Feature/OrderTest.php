@@ -90,11 +90,11 @@ class OrderTest extends TestCase
         Mail::assertSent(OrderShipped::class, 1);
     }
 
-    public function test_error_unexisted_order()
+    public function test_error_nonexistent_order()
     {
         $lastOrder = Order::all()->last();
-        $unexistedId = $lastOrder->id + 1;
-        $response = $this->postJson('/api/order-mail/' . $unexistedId, static::$request);
+        $nonexistentId = $lastOrder->id + 1;
+        $response = $this->postJson('/api/order-mail/' . $nonexistentId, static::$request);
 
         $response->assertStatus(404);
         Mail::assertNothingSent();
