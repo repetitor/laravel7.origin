@@ -70,3 +70,8 @@ Route::apiResources([
     'comments' => 'CommentController',
     'phones' => 'PhoneController',
 ]);
+
+/*
+ * mailing
+ */
+Route::post('order-mail/{order}', 'OrderController@ship');
