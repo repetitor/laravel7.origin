@@ -88,6 +88,11 @@ return [
         'name' => env('MAIL_FROM_NAME', 'Example'),
     ],
 
+//    'to' => (env('APP_ENV', '') !== 'production') ? [
+//        'address' => env('MAIL_UNIVERSAL_TO_ADDRESS', 'viktar202@gmail.com'),
+//        'name' => env('MAIL_UNIVERSAL_TO_NAME', 'Example'),
+//    ] : null,
+
     /*
     |--------------------------------------------------------------------------
     | Markdown Mail Settings
