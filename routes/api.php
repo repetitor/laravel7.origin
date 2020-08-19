@@ -30,7 +30,8 @@ Route::get('try-get', 'Quick@get');
  * p.s. don't worry if you will see message: "Encryption keys already exist. Use the --force option to overwrite them."
  */
 Route::post('/register', 'AuthController@register');
-Route::post('/login', 'AuthController@login');
+//Route::post('/login', 'AuthController@login');
+Route::post('/login', 'AuthController@login')->middleware('verified');
 
 // origin route
 Route::middleware('auth:api')->get('/user', function (Request $request) {
@@ -39,12 +40,26 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('/logout', 'AuthController@logout')->middleware('auth:api');
 
+//Route::get('/email/verify/{id}/{hash}', 'Api\VerificationController@verify')->name('verificationq.verify');
+Route::get('/email/verify/{id}/{hash}', 'Auth\VerificationController@verify')->name('verification-2.verify');
+//Route::get('/email/verify/{id}/{hash}', 'Auth\VerificationController@verify')->name('qww.yoo');
+
+Auth::routes([
+    'register' => false,
+//    'register' => true,
+    'login' => false,
+//    'verify' => true,
+//    'verification-2.verify' => true,
+    'reset' => false
+]);
+
 /*
  * users
  */
 Route::get('users/{user}/phone', 'UserController@phone');
 Route::get('phones/{phone}/user', 'PhoneController@user');
 Route::apiResource('users', 'UserController')->except('store');
+Route::post('delete-user', 'UserController@destroyUseEmail');
 
 /*
  * fligths

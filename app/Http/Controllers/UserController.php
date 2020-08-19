@@ -68,4 +68,14 @@ class UserController extends Controller
     {
         //
     }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function destroyUseEmail(Request $request)
+    {
+        $user = User::firstWhere('email', '=', $request->email);
+        return $user->delete();
+    }
 }
