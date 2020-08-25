@@ -32,7 +32,8 @@ RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
 # imagick
 RUN apt-get install -y --no-install-recommends libmagickwand-dev
-RUN pecl install imagick-3.4.3
+#RUN pecl install imagick-3.4.3
+RUN pecl install imagick
 RUN docker-php-ext-enable imagick
 
 # xdebug
