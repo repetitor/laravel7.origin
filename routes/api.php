@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Route;
 //Route::get('user/{id}', 'ShowProfile');
 Route::get('try', 'Quick');
 Route::get('try-get', 'Quick@get');
+Route::post('try-post-query', 'Quick@postQuery');
 
 /*
  * auth

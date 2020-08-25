@@ -1,0 +1,256 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Laravel OpenApi Demo Documentation",
+        "description": "L5 Swagger OpenApi description",
+        "contact": {
+            "email": "admin@admin.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:86/api",
+            "description": "Laravel Swagger API server"
+        }
+    ],
+    "paths": {
+        "/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "operationId": "App\\Http\\Controllers\\AuthController::register",
+                "responses": {
+                    "200": {
+                        "description": "try-post - An example resource"
+                    },
+                    "400": {
+                        "description": "try-post - An example resource2"
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "operationId": "App\\Http\\Controllers\\AuthController::login",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Login"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "try-post - An example resource"
+                    },
+                    "400": {
+                        "description": "try-post - An example resource2"
+                    }
+                }
+            }
+        },
+        "/logout": {
+            "post": {
+                "operationId": "App\\Http\\Controllers\\AuthController::logout",
+                "responses": {
+                    "200": {
+                        "description": "try-post - An example resource"
+                    },
+                    "400": {
+                        "description": "try-post - An example resource2"
+                    },
+                    "500": {
+                        "description": "try-post - 22222ce2"
+                    }
+                }
+            }
+        },
+        "/api/try": {
+            "get": {
+                "tags": [
+                    "Quickly"
+                ],
+                "summary": "lalala - Display a listing of the resource",
+                "operationId": "operationIdQuickInvoke",
+                "responses": {
+                    "200": {
+                        "description": "Everything is fine"
+                    },
+                    "404": {
+                        "description": "Example not found"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/try-get": {
+            "get": {
+                "tags": [
+                    "Quickly"
+                ],
+                "operationId": "App\\Http\\Controllers\\Quick::get",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "The page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "try-get - An example resource"
+                    },
+                    "400": {
+                        "description": "try-get - An example resource2"
+                    }
+                }
+            }
+        },
+        "/try-post-query": {
+            "post": {
+                "tags": [
+                    "Quickly"
+                ],
+                "operationId": "App\\Http\\Controllers\\Quick::postQuery",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ExampleStoreRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "try-post - An example resource"
+                    },
+                    "400": {
+                        "description": "try-post - An example resource2"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ExampleStoreRequest": {
+                "title": "Example storring request",
+                "description": "Some simple request createa as example",
+                "properties": {
+                    "name": {
+                        "title": "Name",
+                        "description": "Some text field",
+                        "type": "string",
+                        "format": "string",
+                        "example": "test"
+                    },
+                    "value": {
+                        "title": "Value",
+                        "description": "Some integer",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": "123"
+                    }
+                },
+                "type": "object"
+            },
+            "ExampleStoreRequest2": {
+                "title": "Example storring request",
+                "description": "Some simple request createa as example",
+                "properties": {
+                    "name2": {
+                        "title": "Name",
+                        "description": "Some text field",
+                        "type": "string",
+                        "format": "string",
+                        "example": "11111test"
+                    },
+                    "value2": {
+                        "title": "Value",
+                        "description": "Some integer",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": "11111"
+                    }
+                },
+                "type": "object"
+            },
+            "Login": {
+                "title": "Example storring request",
+                "description": "Some simple request createa as example",
+                "properties": {
+                    "email": {
+                        "title": "Email",
+                        "description": "Some email field",
+                        "type": "string",
+                        "format": "email",
+                        "example": "viktar202@ya.ru"
+                    },
+                    "password": {
+                        "title": "Password",
+                        "description": "Some password",
+                        "type": "integer",
+                        "format": "string",
+                        "example": "password"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearer": {
+                "type": "apiKey",
+                "in": "header",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "security": {
+        "0": {
+            "oauth2": [
+                "read:oauth2"
+            ]
+        },
+        "bearer": {
+            "type": "http",
+            "description": "Authorization token obtained from logging in.",
+            "name": "Authorization",
+            "in": "header",
+            "scheme": "bearer"
+        }
+    },
+    "tags": [
+        {
+            "name": "Quickly",
+            "description": "Quickly - API Endpoints of Projects"
+        },
+        {
+            "name": "Auth",
+            "description": "Auth - API Endpoints of Projects"
+        }
+    ]
+}
